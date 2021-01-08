@@ -1,5 +1,6 @@
 ## Portfolio
 
+This portfolio is a compilation of notebooks which I created for data analysis and machine learning. 
 ---
 
 ### Regression Projects
