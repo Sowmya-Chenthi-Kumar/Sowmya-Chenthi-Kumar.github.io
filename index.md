@@ -5,7 +5,7 @@ This portfolio is a compilation of notebooks which I created for data analysis a
 
 ### Regression Projects
 
-[Project 1 Title](https://github.com/Sowmya-Chenthi-Kumar/Association_rules)
+[Association Rules Project](https://github.com/Sowmya-Chenthi-Kumar/Association_rules)
 <img src="images/dummy_thumbnail.jpg?raw=true"/>
 
 ---
