@@ -1,0 +1,93 @@
+---
+title: "Association_rules_ok_cupis"
+author: "Sowmya Chenthi Kumar"
+date: "2/26/2021"
+output: pdf_document
+---
+
+Read the required data set'
+```{r}
+data_okcupid <- read.csv("D:/UBCO_lecture_materials/BLOCK4/DATA572-SUPERVISED LEARNING/okcupidprofiles.csv")
+head(data_okcupid)
+```
+
+Have a look at the data as a possible summary analysis:
+```{r}
+summary(data_okcupid)
+```
+
+
+Look for the possible numeric columns in the dataset:
+```{r}
+data_okcupid$age <- as.numeric(data_okcupid$age)
+data_okcupid$height <- as.numeric(data_okcupid$height)
+
+```
+
+There are few missing values present in the dataset and as the dataset is large we can safely eliminate them 
+
+Lets carry out the required wrangling with our dataset:
+
+```{r}
+# First lets remove all the rows that have the NA values present:
+data_okcupid <- data_okcupid[complete.cases(data_okcupid),]
+data_okcupid[27939:27944,1]
+```
+There are some values in the smoke column which has the data as "" and we can replace them with the na values:
+
+```{r}
+data_okcupid$smokes[data_okcupid$smokes == ""] <- NA
+names(table(data_okcupid$smokes)) 
+
+```
+
+Finally a summary of the wrangled dataset:
+```{r}
+summary(data_okcupid)
+```
+
+Discrete the numeric columns into factors by creating bins:
+
+First lets carry out the process with age
+```{r}
+data_okcupid$age <- discretize(data_okcupid$age, method = "interval", breaks = 4)
+unique(data_okcupid$age)
+```
+
+Next with height:
+```{r}
+data_okcupid$height <- discretize(data_okcupid$height, method = "interval", breaks = 4)
+unique(data_okcupid$height)
+```
+
+Now we run the Apriori in the default specification:
+```{r}
+algo_cupid <- apriori(data_okcupid)
+```
+```{r}
+summary(algo_cupid)
+```
+
+Setting the reuired threshold and then running the algorithm again:
+
+```{r}
+algo_cupid_thres <- apriori(data_okcupid, parameter = list(supp= 0.6, conf= 0.8))
+```
+
+```{r}
+summary(algo_cupid_thres)
+```
+
+Lets inspect further to understand first by support:
+
+```{r}
+inspect(sort(algo_cupid_thres, by= "support")[1:10])
+```
+
+```{r}
+inspect(sort(algo_cupid_thres, by= "lift")[1:10])
+```
+```{r}
+inspect(sort(algo_cupid_thres, by= "confidence")[1:10])
+```
+

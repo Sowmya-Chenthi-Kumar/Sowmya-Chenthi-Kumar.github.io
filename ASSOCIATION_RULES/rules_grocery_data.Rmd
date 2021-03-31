@@ -1,0 +1,41 @@
+---
+title: "Association_Rules"
+author: "Sowmya Chenthi Kumar"
+date: "2/26/2021"
+output: pdf_document
+---
+
+## 30- days of point-of-sale transaction data from a grocery store 
+
+Download the data set:
+```{r}
+library(arules)
+```
+```{r}
+# Attach the required dataset we need to work on:
+data(Groceries)
+
+# Understand the frequency of the top 20 items:
+itemFrequencyPlot(Groceries, topN=20, type= "absolute")
+```
+```{r}
+summary(Groceries)
+head(Groceries)
+```
+
+```{r}
+rules <- apriori(Groceries, parameter = list(supp= 0.001, conf= 0.8))
+inspect(rules[1:5])
+```
+Get a summary of the apriori algorithm:
+```{r}
+summary(rules)
+```
+
+# Sorting to find the rules based on the highest level of confidence:
+
+```{r}
+rule_con <- sort(rules, by='confidence', decreasing = TRUE)
+inspect(rule_con[1:5]) 
+```
+
